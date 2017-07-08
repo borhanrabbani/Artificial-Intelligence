@@ -1,0 +1,178 @@
+package main;
+
+public class State {
+	private int[][] puzzle = new int[3][3];
+
+	public int[][] getPuzzle() {
+		return puzzle;
+	}
+
+	public void setPuzzle(int[][] puzzle) {
+		this.puzzle = puzzle;
+	}
+
+	@Override
+	public String toString() {
+		String temp = "";
+		for(int i = 0; i < puzzle.length; i++){
+			for(int j = 0; j < puzzle.length; j++){
+				temp += puzzle[i][j] + " ";
+			}
+			temp += "\n";
+		}
+		return temp;
+	}
+	
+	public boolean isGoal(){
+		int count = 0;
+		for(int i = 0; i < puzzle.length; i++){
+			for(int j = 0; j < puzzle.length; j++){
+				if(count != puzzle[i][j]){
+					return false;
+				}
+				count++;
+			}
+		}
+		return true;
+	}
+	
+	public State performUp(){
+		State up = new State();
+		
+		int row = 0;
+		int col = 0;
+		boolean found = false;
+		for(col = 0; col < 3; col++){
+			for(row = 0; row < 3; row++){
+				if(puzzle[row][col] == 0){
+					found = true;
+					break;
+				}
+			}
+			if(found == true){
+				break;
+			}
+		}
+		//System.out.println(col + " " + row);
+		if(row == 0) return null;
+		
+		for(int i = 0; i < 3; i++){
+			for(int j = 0; j < 3; j++){
+				up.puzzle[j][i] = puzzle[j][i];
+			}
+		}
+		
+		
+		up.getPuzzle()[row][col] = puzzle[row-1][col];
+		up.getPuzzle()[row-1][col] = 0;
+		return up;
+	}
+	
+	public State performDown(){
+		State up = new State();
+		
+		int row = 0;
+		int col = 0;
+		boolean found = false;
+		for(col = 0; col < 3; col++){
+			for(row = 0; row < 3; row++){
+				if(puzzle[row][col] == 0){
+					found = true;
+					break;
+				}
+			}
+			if(found == true){
+				break;
+			}
+		}
+		//System.out.println(col + " " + row);
+		if(row == 2) return null;
+		
+		for(int i = 0; i < 3; i++){
+			for(int j = 0; j < 3; j++){
+				up.puzzle[j][i] = puzzle[j][i];
+			}
+		}
+		
+		
+		up.getPuzzle()[row][col] = puzzle[row+1][col];
+		up.getPuzzle()[row+1][col] = 0;
+		return up;
+	}
+	
+	public State performLeft(){
+		State up = new State();
+		
+		int row = 0;
+		int col = 0;
+		boolean found = false;
+		for(col = 0; col < 3; col++){
+			for(row = 0; row < 3; row++){
+				if(puzzle[row][col] == 0){
+					found = true;
+					break;
+				}
+			}
+			if(found == true){
+				break;
+			}
+		}
+		//System.out.println(col + " " + row);
+		if(col == 0) return null;
+		
+		for(int i = 0; i < 3; i++){
+			for(int j = 0; j < 3; j++){
+				up.puzzle[j][i] = puzzle[j][i];
+			}
+		}
+		
+		
+		up.getPuzzle()[row][col] = puzzle[row][col-1];
+		up.getPuzzle()[row][col-1] = 0;
+		return up;
+	}
+	
+	public State performRight(){
+		State up = new State();
+		
+		int row = 0;
+		int col = 0;
+		boolean found = false;
+		for(col = 0; col < 3; col++){
+			for(row = 0; row < 3; row++){
+				if(puzzle[row][col] == 0){
+					found = true;
+					break;
+				}
+			}
+			if(found == true){
+				break;
+			}
+		}
+		//System.out.println(col + " " + row);
+		if(col == 2) return null;
+		
+		for(int i = 0; i < 3; i++){
+			for(int j = 0; j < 3; j++){
+				up.puzzle[j][i] = puzzle[j][i];
+			}
+		}
+		
+		
+		up.getPuzzle()[row][col] = puzzle[row][col+1];
+		up.getPuzzle()[row][col+1] = 0;
+		return up;
+	}
+	
+	public boolean equals(Object o){
+		State state = (State)o;
+		for(int i = 0; i < 3; i++){
+			for(int j = 0; j < 3; j++){
+				if(state.getPuzzle()[j][i] != puzzle[j][i]) return false;
+			}
+		}
+		
+		return true;
+		
+	}
+}
