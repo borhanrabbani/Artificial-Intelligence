@@ -1,0 +1,77 @@
+package main;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class DFS {
+	
+	public static void main(String args[]){
+		State initial = new State();
+		int [][] init = {
+				{0, 4, 2},
+				{1, 3, 7},
+				{6, 8, 5}
+		};
+		/*int [][] init = {
+				{1, 4, 7},
+				{6, 2, 0},
+				{8, 5, 3}
+		};*/
+		initial.setPuzzle(init);
+		/*
+		System.out.println(initial.performUp());
+		System.out.println(initial.performDown());
+		initial = initial.performRight();
+		System.out.println(initial);
+		System.out.println(initial.performLeft());
+		*/
+		Queue<State> que = new LinkedList<State>();
+		
+		HashMap<State, Boolean> visited = new HashMap<State, Boolean>();
+		HashMap<State, String> order = new HashMap<State, String>();
+		
+		
+		que.add(initial);
+		order.put(initial, "");
+		
+		while(!que.isEmpty()){
+			State news = que.remove();
+			if(!visited.containsKey(news)){
+				visited.put(news, true);
+				State up = news.performUp();
+				if(up != null && up.isGoal()){
+					System.out.println(up + order.get(news) + "U");
+					break;
+				}else if(up != null){
+					que.add(up);
+					order.put(up, order.get(news) + "U");
+				}
+				State down= news.performDown();
+				if(down!= null && down.isGoal()){
+					System.out.println(down + order.get(news) + "D");
+					break;
+				}else if(down!= null){
+					que.add(down);
+					order.put(down, order.get(news) + "D");
+				}
+				State left = news.performLeft();
+				if(left!= null && left.isGoal()){
+					System.out.println(left + order.get(news) + "L");
+					break;
+				}else if(left!= null){
+					que.add(left);
+					order.put(left, order.get(news) + "L");
+				}
+				State right = news.performRight();
+				if(right!= null && right.isGoal()){
+					System.out.println(right + order.get(news) + "R");
+					break;
+				}else if(right!= null){
+					que.add(right);
+					order.put(right, order.get(news) + "R");
+				}
+			}
+		}
+	}
+}
