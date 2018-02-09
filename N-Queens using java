@@ -1,0 +1,72 @@
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+class GFG {
+	public static void main (String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int cases = sc.nextInt();
+		
+		while(cases > 0) {
+		    int n = sc.nextInt();
+		    System.out.println(nQueens(n));
+		    cases--;
+		}
+	}
+	
+	public static String nQueens(int n) {
+	    StringBuilder solutionBuilder = new StringBuilder();
+	    int sol[] = new int[n];
+	    for(int i=0; i<n; i++)
+	        sol[i] = -1;
+	    placeInNextCol(1, n, sol, solutionBuilder);
+	    if(solutionBuilder.length() == 0)
+	        solutionBuilder.append("-1");
+	    return solutionBuilder.toString();
+
+	}
+	
+	public static void placeInNextCol(int col, int n, int sol[], StringBuilder solutionBuilder) {
+	    if(col > n) {
+	       addToSolution(sol, solutionBuilder);
+	    }
+	    
+	    for(int row=1; row<=n; row++) {
+	        if(isSafe(row, col, sol)) {
+	            makeMove(row, col, sol);
+	            placeInNextCol(col+1, n, sol, solutionBuilder);
+	            undoMove(row, col, sol);
+	        }
+	    }
+	}
+	
+	public static void addToSolution(int sol[], StringBuilder solutionBuilder) {
+        if(solutionBuilder.length() > 0);
+            solutionBuilder.append(" ");
+        solutionBuilder.append("[");
+	    for(int c=0; c<sol.length; c++) {
+	        solutionBuilder.append(sol[c]);
+	       // if(c != sol.length-1)
+	        solutionBuilder.append(" ");
+	    }
+        solutionBuilder.append("]");
+	}
+	
+	public static boolean isSafe(int row, int col, int sol[]) {
+	    for(int c=col-2, k=1; c>=0; c--, k++)
+	        if(sol[c] == row || sol[c]+k == row || sol[c]-k == row)
+	            return false;
+	    return true;
+	}
+	
+	public static void makeMove(int row, int col, int sol[]) {
+	    sol[col-1] = row;
+	}
+	
+	public static void undoMove(int row, int col, int sol[]) {
+	    sol[col-1] = 0;
+	}
+	
+	
+	
+}
